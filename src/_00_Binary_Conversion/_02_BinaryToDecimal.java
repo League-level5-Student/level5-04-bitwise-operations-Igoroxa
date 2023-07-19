@@ -2,6 +2,9 @@ package _00_Binary_Conversion;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Array;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
 
 /*
@@ -30,7 +33,21 @@ import org.junit.jupiter.api.Test;
  */
 public class _02_BinaryToDecimal {
     int convertBinaryStringToDecimalInt(String binStr) {
-        return -1;
+    	Integer[] one = new Integer[binStr.length()];
+    	int sum = 0;
+    	for (int i = 0; i < one.length; i++) {
+			one[i] = Integer.parseInt(String.valueOf(binStr.charAt(i)));
+			
+		}
+    	int multiplicant = 1;
+    	for (int i = 0; i < one.length; i++) {
+    		
+			int finale = multiplicant * one[i];
+			multiplicant = multiplicant*2;
+			sum = sum + finale;
+		}
+    	
+        return sum;
     }
 
     @Test
