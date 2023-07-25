@@ -40,13 +40,13 @@ public class _02_BinaryToDecimal {
 			
 		}
     	int multiplicant = 1;
-    	for (int i = 0; i < one.length; i++) {
+    	for (int i = one.length-1; i > -1; i--) {
     		
 			int finale = multiplicant * one[i];
-			multiplicant = multiplicant*2;
 			sum = sum + finale;
+			multiplicant = multiplicant*2;
 		}
-    	
+    	multiplicant = 1;
         return sum;
     }
 
