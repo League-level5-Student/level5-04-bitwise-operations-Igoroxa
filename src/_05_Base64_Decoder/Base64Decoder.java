@@ -1,5 +1,7 @@
 package _05_Base64_Decoder;
 
+import java.util.ArrayList;
+
 /*
  * Base 64 is a way of encoding binary data using text.
  * Each number 0-63 is mapped to a character.
@@ -45,52 +47,62 @@ package _05_Base64_Decoder;
  */
 public class Base64Decoder {
 
-    final static char[] base64Chars = {
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
-    };
+	final static char[] base64Chars = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+			'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+			'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5',
+			'6', '7', '8', '9', '+', '/' };
 
-    //1. Complete this method so that it returns the index in
-    //   the base64Chars array that corresponds to the passed in char.
-    public static byte convertBase64Char(char c){
-    	for (int i = 0; i < base64Chars.length; i++) {
+	// 1. Complete this method so that it returns the index in
+	// the base64Chars array that corresponds to the passed in char.
+	public static byte convertBase64Char(char c) {
+		for (int i = 0; i < base64Chars.length; i++) {
 			if (c == base64Chars[i]) {
 				return (byte) i;
 			}
-			
+
 		}
 		return 0;
-        
-    }
 
-    //2. Complete this method so that it will take in a string that is 4
-    //   characters long and return an array of 3 bytes (24 bits). The byte
-    //   array should be the binary value of the encoded characters.
-    public static byte[] convert4CharsTo24Bits(String s){
-  
-    	byte[] origin = new byte[4];
-    	char[] broken = s.toCharArray();
-    	byte[] returned = new byte[3];
-    	
-    	for (int i = 0; i < broken.length; i++) {
+	}
+
+	// 2. Complete this method so that it will take in a string that is 4
+	// characters long and return an array of 3 bytes (24 bits). The byte
+	// array should be the binary value of the encoded characters.
+	public static byte[] convert4CharsTo24Bits(String s) {
+
+		byte[] origin = new byte[4];
+		char[] broken = s.toCharArray();
+		byte[] returned = new byte[3];
+
+		for (int i = 0; i < broken.length; i++) {
 			origin[i] = convertBase64Char(broken[i]);
 		}
-    	
-			returned[0] = (byte) ((origin[0] << 2) | (origin[1] >>> 4));
-			returned[1] = (byte) ((origin[1] << 4) | (origin[2] >> 2));
-			returned[2] = (byte) ((origin[2] << 6) | origin[3]);
-    	
-        return returned;
-    }
 
-    //3. Complete this method so that it takes in a string of any length
-    //   and returns the full byte array of the decoded base64 characters.
-    public static byte[] base64StringToByteArray(String file) {
-    	int arraySize = file.toCharArray().length/4;
-    	
-        return null;
-    }
+		returned[0] = (byte) ((origin[0] << 2) | (origin[1] >>> 4));
+		returned[1] = (byte) ((origin[1] << 4) | (origin[2] >> 2));
+		returned[2] = (byte) ((origin[2] << 6) | origin[3]);
+
+		return returned;
+	}
+
+	// 3. Complete this method so that it takes in a string of any length
+	// and returns the full byte array of the decoded base64 characters.
+	public static byte[] base64StringToByteArray(String file) {
+		
+		char[] characters = file.toCharArray();
+		String[] temp = new String[characters.length/4];
+			int stringCounter = 0;
+			for (int i = 0; i < characters.length/4; i=i+4) {
+				StringBuilder str = new StringBuilder();
+				str.append(characters, 0, 3);
+				temp[stringCounter] = str.toString();
+				stringCounter++;
+			}
+		byte[][] finale = new byte[temp.length][];
+		for (int i = 0; i < temp.length; i++) {
+			finale[i] = convert4CharsTo24Bits(temp[i]);
+		}
+		
+		return finale;
+	}
 }
